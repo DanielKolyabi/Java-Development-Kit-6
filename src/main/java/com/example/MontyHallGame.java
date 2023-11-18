@@ -1,12 +1,13 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
 public class MontyHallGame {
+
   private static final int TOTAL_TRIALS = 1000;
 
   public static void main(String[] args) {
@@ -18,13 +19,13 @@ public class MontyHallGame {
       results.put(i, win);
     }
 
-    int positiveResults = (int) results.values().stream().filter(Boolean::valueOf).count();
-    int negativeResults = TOTAL_TRIALS - positiveResults;
-    double positivePercentage = (double) positiveResults / TOTAL_TRIALS * 100;
-
-    System.out.println("Позитивные результаты: " + positiveResults);
-    System.out.println("Негативные результаты: " + negativeResults);
-    System.out.println("Процент позитивных результатов: " + positivePercentage + "%");
+//    int positiveResults = (int) results.values().stream().filter(Boolean::valueOf).count();
+//    int negativeResults = TOTAL_TRIALS - positiveResults;
+//    double positivePercentage = (double) positiveResults / TOTAL_TRIALS * 100;
+//
+//    System.out.println("Позитивные результаты: " + positiveResults);
+//    System.out.println("Негативные результаты: " + negativeResults);
+//    System.out.println("Процент позитивных результатов: " + positivePercentage + "%");
 
 // Вывод ходов игр
     for (int i = 1; i <= TOTAL_TRIALS; i++) {
@@ -40,23 +41,48 @@ public class MontyHallGame {
         boolean win = results.get(i);
 
         // Формирование строки с пояснением
-        String explanation = "Игрок выбрал дверь " + playerChoice + ", " +
-            "Ведущий открывает дверь " + goatDoor + ", за которой козёл, " +
-            (switchChoice > 0 ?
-                "Игрок решает выбрать дверь " + switchChoice :
-                "Игрок решает оставить выбранную дверь.") +
-            (win ? " Игрок выйграл, за дверью авто! " : " Игрок проиграл, за дверью козёл! ");
+        String explanation = " Игрок выбрал дверь " + playerChoice + ", " +
+            " Ведущий открывает дверь " + goatDoor + ",";
+
+        // Проверка, изменил ли игрок свой выбор
+        if (switchChoice > 0) {
+          // Если игрок уже выбрал дверь, выводим сообщение оставшейся двери
+          if (switchChoice == playerChoice) {
+            explanation += " Игрок решает оставить дверь ";
+          } else {
+            // Если игрок выбрал другую дверь, добавляем информацию об изменении выбора
+            explanation += " Игрок выбирает дверь " + switchChoice;
+          }
+        } else {
+          // Если игрок не изменил свой выбор, добавляем информацию об этом
+          explanation += " Игрок решает оставить дверь ";
+        }
 
         // Вывод строки с пояснением в консоль
-        System.out.println("Ход игры " + i + ": " + explanation);
+        System.out.println("Игра " + i + ": " + explanation);
+
+        // Добавление информации о выигрыше, если игрок выиграл
+        if (win) {
+          System.out.println("Игрок выиграл)");
+        } else {
+          System.out.println("Игрок проиграл(.");
+        }
       } else {
         // Если что-то пошло не так, выведем сообщение об ошибке
         System.out.println("Ошибка при обработке хода игры " + i);
       }
     }
+    // Вывод статистики
+    int positiveResults = (int) results.values().stream().filter(Boolean::valueOf).count();
+    int negativeResults = TOTAL_TRIALS - positiveResults;
+    double positivePercentage = (double) positiveResults / TOTAL_TRIALS * 100;
 
-
+    System.out.println("\nСтатистика:");
+    System.out.println("Позитивные результаты: " + positiveResults);
+    System.out.println("Негативные результаты: " + negativeResults);
+    System.out.println("Процент позитивных результатов: " + positivePercentage + "%");
   }
+
 
   private static boolean playMontyHallGame(Map<Integer, List<Integer>> moves, int gameNumber) {
     Random random = new Random();
@@ -81,7 +107,8 @@ public class MontyHallGame {
     List<Integer> gameMoves = new ArrayList<>();
     gameMoves.add(playerChoice);
     gameMoves.add(goatDoor);
-    gameMoves.add(switchChoice ? playerChoice : 0); // Если произошло изменение выбора, добавляем новый выбор
+    gameMoves.add(
+        switchChoice ? playerChoice : 0); // Если произошло изменение выбора, добавляем новый выбор
     moves.put(gameNumber, gameMoves);
 
     return playerChoice == carDoor;
