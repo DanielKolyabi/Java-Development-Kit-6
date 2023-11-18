@@ -19,15 +19,7 @@ public class MontyHallGame {
       results.put(i, win);
     }
 
-//    int positiveResults = (int) results.values().stream().filter(Boolean::valueOf).count();
-//    int negativeResults = TOTAL_TRIALS - positiveResults;
-//    double positivePercentage = (double) positiveResults / TOTAL_TRIALS * 100;
-//
-//    System.out.println("Позитивные результаты: " + positiveResults);
-//    System.out.println("Негативные результаты: " + negativeResults);
-//    System.out.println("Процент позитивных результатов: " + positivePercentage + "%");
-
-// Вывод ходов игр
+// Вывод ходов игры
     for (int i = 1; i <= TOTAL_TRIALS; i++) {
       List<Integer> gameMoves = moves.get(i);
 
@@ -40,7 +32,7 @@ public class MontyHallGame {
         // Получение результата для текущей игры
         boolean win = results.get(i);
 
-        // Формирование строки с пояснением
+        // Пояснение в консоль
         String explanation = " Игрок выбрал дверь " + playerChoice + ", " +
             " Ведущий открывает дверь " + goatDoor + ",";
 
@@ -63,9 +55,9 @@ public class MontyHallGame {
 
         // Добавление информации о выигрыше, если игрок выиграл
         if (win) {
-          System.out.println("Игрок выиграл)");
+          System.out.println("Игрок выиграл))");
         } else {
-          System.out.println("Игрок проиграл(.");
+          System.out.println("Игрок проиграл((.");
         }
       } else {
         // Если что-то пошло не так, выведем сообщение об ошибке
