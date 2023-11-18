@@ -1,6 +1,8 @@
 package com.example;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -8,17 +10,14 @@ public class MontyHallGame {
   private static final int TOTAL_TRIALS = 1000;
 
   public static void main(String[] args) {
-    // Создаем карту для хранения результатов (шаг цикла -> результат)
     Map<Integer, Boolean> results = new HashMap<>();
+    Map<Integer, List<Integer>> moves = new HashMap<>();
 
-    // Выполняем серию игр
     for (int i = 1; i <= TOTAL_TRIALS; i++) {
-      // Играем в парадокс Монти Холла и сохраняем результат
-      boolean win = playMontyHallGame();
+      boolean win = playMontyHallGame(moves, i);
       results.put(i, win);
     }
 
-    // Выводим статистику
     int positiveResults = (int) results.values().stream().filter(Boolean::valueOf).count();
     int negativeResults = TOTAL_TRIALS - positiveResults;
     double positivePercentage = (double) positiveResults / TOTAL_TRIALS * 100;
@@ -26,35 +25,39 @@ public class MontyHallGame {
     System.out.println("Позитивные результаты: " + positiveResults);
     System.out.println("Негативные результаты: " + negativeResults);
     System.out.println("Процент позитивных результатов: " + positivePercentage + "%");
+
+    // Вывод ходов игр
+    for (int i = 1; i <= TOTAL_TRIALS; i++) {
+      System.out.println("Ходы игры " + i + ": " + moves.get(i));
+    }
   }
 
-  private static boolean playMontyHallGame() {
-    // Создаем объект Random для генерации случайных чисел
+  private static boolean playMontyHallGame(Map<Integer, List<Integer>> moves, int gameNumber) {
     Random random = new Random();
 
-    // Генерируем случайный номер двери, за которой находится автомобиль (1, 2 или 3)
     int carDoor = random.nextInt(3) + 1;
-
-    // Игрок выбирает одну из трех дверей
     int playerChoice = random.nextInt(3) + 1;
 
-    // Ведущий открывает одну из дверей с козлом (не выбранной игроком и не содержащей автомобиль)
     int goatDoor;
     do {
       goatDoor = random.nextInt(3) + 1;
     } while (goatDoor == carDoor || goatDoor == playerChoice);
 
-    // Игрок принимает решение изменить выбор
     boolean switchChoice = random.nextBoolean();
 
-    // Если игрок решает изменить выбор, меняем его выбор
     if (switchChoice) {
       do {
         playerChoice = random.nextInt(3) + 1;
       } while (playerChoice == goatDoor);
     }
 
-    // Проверка, выиграл ли игрок
+    // Сохранение хода игры
+    List<Integer> gameMoves = new ArrayList<>();
+    gameMoves.add(playerChoice);
+    gameMoves.add(goatDoor);
+    gameMoves.add(switchChoice ? playerChoice : 0); // Если произошло изменение выбора, добавляем новый выбор
+    moves.put(gameNumber, gameMoves);
+
     return playerChoice == carDoor;
   }
 }
