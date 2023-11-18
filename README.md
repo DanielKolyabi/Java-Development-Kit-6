@@ -10,10 +10,11 @@
 https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%B4%D0%BE%D0%BA%D1%81_%D0%9C%D0%BE%D0%BD%D1%82%D0%B8_%D0%A5%D0%BE%D0%BB%D0%BB%D0%B0
 
 # Описание
+
 Проект включает в себя Java-код для симуляции серии игр в соответствии с парадоксом Монти Холла.
 
 ## Основные компоненты
-`MontyHallGame.java`: Основной класс, который содержит логику симуляции игры и вывода результатов.
+[MontyHallGame.java](https://github.com/ShumAhd/Java-Development-Kit-6/blob/main/src/main/java/com/example/MontyHallGame.java): Основной класс, который содержит логику симуляции игры и вывода результатов.
 
 `pom.xml`: Файл конфигурации Maven для управления зависимостями и сборкой проекта.
 Параметры симуляции
